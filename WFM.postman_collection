@@ -1,0 +1,3155 @@
+{
+	"info": {
+		"_postman_id": "65fa4ee6-378e-469b-a17d-3e65b993ec36",
+		"name": "WFM app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    const responseId = pm.response.json().user_id\r",
+									"    pm.environment.set(\"user_id\", responseId)\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('user_post_name', 'Bob')\r",
+									"pm.environment.set('user_post_email', 'Bob@email.com')\r",
+									"pm.environment.set('user_post_access', 'Restricted')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{user_post_name}}\",\r\n    \"email\": \"{{user_post_email}}\",\r\n    \"access\": \"{{user_post_access}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user name has been submitted correctly\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    const responseId = response.user_id\r",
+									"    const name = response.name\r",
+									"    const email = response.email\r",
+									"    const access = response.access\r",
+									"\r",
+									"    const id = pm.environment.get('user_id')\r",
+									"    const postedName = pm.environment.get('user_post_name')\r",
+									"    const postedEmail = pm.environment.get('user_post_email')\r",
+									"    const postedAcces = pm.environment.get('user_post_access')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(id)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(email).to.eql(postedEmail)\r",
+									"    pm.expect(access).to.eql(postedAcces)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('user_post_name', 'Robert')\r",
+									"pm.environment.set('user_post_email', 'Robert@email.com')\r",
+									"pm.environment.set('user_post_access', 'Granted')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": {{user_id}},\r\n    \"name\": \"{{user_post_name}}\",\r\n    \"email\": \"{{user_post_email}}\",\r\n    \"access\": \"{{user_post_access}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get editer user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The user name has been submitted correctly\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    const responseId = response.user_id\r",
+									"    const name = response.name\r",
+									"    const email = response.email\r",
+									"    const access = response.access\r",
+									"\r",
+									"    const id = pm.environment.get('user_id')\r",
+									"    const postedName = pm.environment.get('user_post_name')\r",
+									"    const postedEmail = pm.environment.get('user_post_email')\r",
+									"    const postedAcces = pm.environment.get('user_post_access')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(id)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(email).to.eql(postedEmail)\r",
+									"    pm.expect(access).to.eql(postedAcces)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('User has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "Create client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Client')\r",
+									"pm.environment.set('client_post_location', 'Edinburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Pat Manager')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{client_post_name}}\",\r\n   \"projects\": [],\r\n   \"location\": \"{{client_post_location}}\",\r\n   \"account_manager\": \"{{client_post_account_manager}}\",\r\n   \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    pm.environment.set('project_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('project_post_name', 'Project Zoo')\r",
+									"pm.environment.set('project_post_probability', 80)\r",
+									"pm.environment.set('project_post_start_date', '01/05/2021')\r",
+									"pm.environment.set('project_post_end_date', '08/06/2021')\r",
+									"pm.environment.set('project_post_status', 'Active')\r",
+									"pm.environment.set('project_post_notice_period', '3 weeks')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{project_post_name}}\",\r\n    \"client\": {\r\n        \"client_id\": {{client_id}}\r\n    },\r\n    \"probability\": {{project_post_probability}},\r\n    \"start_date\": \"{{project_post_start_date}}\",\r\n    \"end_date\": \"{{project_post_end_date}}\",\r\n    \"status\": \"{{project_post_status}}\",\r\n    \"notice_period\": \"{{project_post_notice_period}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The project details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    const name = response.name\r",
+									"    const client = response.client.client_id\r",
+									"    const probability = response.probability\r",
+									"    const start_date = response.start_date\r",
+									"    const end_date = response.end_date\r",
+									"    const status = response.status\r",
+									"    const notice_period = response.notice_period\r",
+									"\r",
+									"    const postedId = pm.environment.get('project_id')\r",
+									"    const postedName = pm.environment.get('project_post_name')\r",
+									"    const postedProbability = pm.environment.get('project_post_probability')\r",
+									"    const postedStartDate = pm.environment.get('project_post_start_date')\r",
+									"    const postedEndDate = pm.environment.get('project_post_end_date')\r",
+									"    const postedStatus = pm.environment.get('project_post_status')\r",
+									"    const postedNoticePeriod = pm.environment.get('project_post_notice_period')\r",
+									"\r",
+									"   pm.expect(responseId).to.eql(postedId)\r",
+									"   pm.expect(name).to.eql(postedName)\r",
+									"   pm.expect(client).to.eql(pm.environment.get('client_id'))\r",
+									"   pm.expect(probability).to.eql(postedProbability)\r",
+									"   pm.expect(start_date).to.eql(postedStartDate)\r",
+									"   pm.expect(end_date).to.eql(postedEndDate)\r",
+									"   pm.expect(status).to.eql(postedStatus)\r",
+									"   pm.expect(notice_period).to.eql(postedNoticePeriod)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/projects/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    pm.environment.set('project_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('project_post_name', 'Project Window')\r",
+									"pm.environment.set('project_post_probability', 70)\r",
+									"pm.environment.set('project_post_start_date', '01/05/2022')\r",
+									"pm.environment.set('project_post_end_date', '08/06/2022')\r",
+									"pm.environment.set('project_post_status', 'On hold')\r",
+									"pm.environment.set('project_post_notice_period', 'NYD')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"project_id\": {{project_id}},\r\n    \"name\": \"{{project_post_name}}\",\r\n    \"client\": {\r\n        \"client_id\": {{client_id}}\r\n    },\r\n    \"probability\": {{project_post_probability}},\r\n    \"start_date\": \"{{project_post_start_date}}\",\r\n    \"end_date\": \"{{project_post_end_date}}\",\r\n    \"status\": \"{{project_post_status}}\",\r\n    \"notice_period\": \"{{project_post_notice_period}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get edited project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The project details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    const name = response.name\r",
+									"    const client = response.client.client_id\r",
+									"    const probability = response.probability\r",
+									"    const start_date = response.start_date\r",
+									"    const end_date = response.end_date\r",
+									"    const status = response.status\r",
+									"    const notice_period = response.notice_period\r",
+									"\r",
+									"    const postedId = pm.environment.get('project_id')\r",
+									"    const postedName = pm.environment.get('project_post_name')\r",
+									"    const postedProbability = pm.environment.get('project_post_probability')\r",
+									"    const postedStartDate = pm.environment.get('project_post_start_date')\r",
+									"    const postedEndDate = pm.environment.get('project_post_end_date')\r",
+									"    const postedStatus = pm.environment.get('project_post_status')\r",
+									"    const postedNoticePeriod = pm.environment.get('project_post_notice_period')\r",
+									"\r",
+									"   pm.expect(responseId).to.eql(postedId)\r",
+									"   pm.expect(name).to.eql(postedName)\r",
+									"   pm.expect(client).to.eql(pm.environment.get('client_id'))\r",
+									"   pm.expect(probability).to.eql(postedProbability)\r",
+									"   pm.expect(start_date).to.eql(postedStartDate)\r",
+									"   pm.expect(end_date).to.eql(postedEndDate)\r",
+									"   pm.expect(status).to.eql(postedStatus)\r",
+									"   pm.expect(notice_period).to.eql(postedNoticePeriod)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/projects/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete project/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/projects/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete client/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Project has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "Create client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Client')\r",
+									"pm.environment.set('client_post_location', 'Edinburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Pat Manager')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{client_post_name}}\",\r\n   \"projects\": [],\r\n   \"location\": \"{{client_post_location}}\",\r\n   \"account_manager\": \"{{client_post_account_manager}}\",\r\n   \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The client details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    const name = response.name\r",
+									"    const location = response.location\r",
+									"    const account_manager = response.account_manager\r",
+									"    const status = response.status\r",
+									"\r",
+									"    const postedName = pm.environment.get('client_post_name')\r",
+									"    const postedLocation = pm.environment.get('client_post_location')\r",
+									"    const postedAccountManager = pm.environment.get('client_post_account_manager')\r",
+									"    const postedStatus = pm.environment.get('client_post_status')\r",
+									"    const postedId = pm.environment.get('client_id')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(location).to.eql(postedLocation)\r",
+									"    pm.expect(account_manager).to.eql(postedAccountManager)\r",
+									"    pm.expect(status).to.eql(postedStatus)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Jones')\r",
+									"pm.environment.set('client_post_location', 'Musselburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Patrice Arlington')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client_id\": {{client_id}},\r\n    \"name\": \"{{client_post_name}}\",\r\n    \"projects\": [],\r\n    \"location\": \"{{client_post_location}}\",\r\n    \"account_manager\": \"{{client_post_account_manager}}\",\r\n    \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get edited client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The client details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    const name = response.name\r",
+									"    const location = response.location\r",
+									"    const account_manager = response.account_manager\r",
+									"    const status = response.status\r",
+									"\r",
+									"    const postedName = pm.environment.get('client_post_name')\r",
+									"    const postedLocation = pm.environment.get('client_post_location')\r",
+									"    const postedAccountManager = pm.environment.get('client_post_account_manager')\r",
+									"    const postedStatus = pm.environment.get('client_post_status')\r",
+									"    const postedId = pm.environment.get('client_id')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(location).to.eql(postedLocation)\r",
+									"    pm.expect(account_manager).to.eql(postedAccountManager)\r",
+									"    pm.expect(status).to.eql(postedStatus)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete client/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Client has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "Create Employee",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('employee_post_name', 'Bob')\r",
+									"pm.environment.set('employee_post_employment_type', 'Associate')\r",
+									"pm.environment.set('employee_post_pay_rate', 25)\r",
+									"pm.environment.set('employee_post_location', 'Edinburgh')\r",
+									"pm.environment.set('employee_post_job_title', 'Junior Engineer')\r",
+									"pm.environment.set('employee_post_api_testing', 4)\r",
+									"pm.environment.set('employee_post_selenium', 3)\r",
+									"pm.environment.set('employee_post_cypress', 5)\r",
+									"pm.environment.set('employee_post_security_clearance', 'DS')\r",
+									"pm.environment.set('employee_post_skill_aspiration', 'Astronaught')\r",
+									"pm.environment.set('employee_post_client_aspiration', 'NASA')\r",
+									"pm.environment.set('employee_post_candidates', [])\r",
+									"pm.environment.set('employee_post_cv', 'www.bigCVFactory.com')\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.employee_id\r",
+									"    pm.environment.set('employee_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"{{employee_post_name}}\",\r\n\"employment_type\": \"{{employee_post_employment_type}}\",\r\n\"pay_rate\": {{employee_post_pay_rate}},\r\n\"location\": \"{{employee_post_location}}\",\r\n\"job_title\": \"{{employee_post_job_title}}\",\r\n\"api_testing\": {{employee_post_api_testing}},\r\n\"selenium\": {{employee_post_selenium}},\r\n\"cypress\": {{employee_post_cypress}},\r\n\"security_clearance\": \"{{employee_post_security_clearance}}\",\r\n\"skill_aspiration\": \"{{employee_post_skill_aspiration}}\",\r\n\"client_aspiration\": \"{{employee_post_client_aspiration}}\",\r\n\"candidates\": [],\r\n\"cv\": \"{{employee_post_cv}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The employee details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.employee_id\r",
+									"    const name = response.name\r",
+									"    const employment_type = response.employment_type\r",
+									"    const payRate = response.pay_rate\r",
+									"    const location = response.location\r",
+									"    const job_title = response.job_title\r",
+									"    const api_testing = response.api_testing\r",
+									"    const selenium = response.selenium\r",
+									"    const cypress = response.cypress\r",
+									"    const security_clearance = response.security_clearance\r",
+									"    const skill_aspiration = response.skill_aspiration\r",
+									"    const client_aspiration = response.client_aspiration\r",
+									"    const candidates = response.candidates\r",
+									"    const cv = response.cv\r",
+									"\r",
+									"    const postedId = pm.environment.get('employee_id')\r",
+									"    const postedName = pm.environment.get('employee_post_name')\r",
+									"    const postedLocation = pm.environment.get('employee_post_location')\r",
+									"    const postedEmploymentType = pm.environment.get('employee_post_employment_type')\r",
+									"    const postedPayRate = pm.environment.get('employee_post_pay_rate')\r",
+									"    const postedJobTitle = pm.environment.get('employee_post_job_title')\r",
+									"    const postedApiTesting = pm.environment.get('employee_post_api_testing')\r",
+									"    const postedSelenium = pm.environment.get('employee_post_selenium')\r",
+									"    const postedCypress = pm.environment.get('employee_post_cypress')\r",
+									"    const postedSecurityClearance = pm.environment.get('employee_post_security_clearance')\r",
+									"    const postedSkillAspiration = pm.environment.get('employee_post_skill_aspiration')\r",
+									"    const postedClientAspiration = pm.environment.get('employee_post_client_aspiration')\r",
+									"    const postedCandidates = pm.environment.get('employee_post_candidates')\r",
+									"    const postedCV = pm.environment.get('employee_post_cv')\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(location).to.eql(postedLocation)\r",
+									"    pm.expect(employment_type).to.eql(postedEmploymentType)\r",
+									"    pm.expect(payRate).to.eql(postedPayRate)\r",
+									"    pm.expect(job_title).to.eql(postedJobTitle)\r",
+									"    pm.expect(api_testing).to.eql(postedApiTesting)\r",
+									"    pm.expect(selenium).to.eql(postedSelenium)\r",
+									"    pm.expect(cypress).to.eql(postedCypress)\r",
+									"    pm.expect(security_clearance).to.eql(postedSecurityClearance)\r",
+									"    pm.expect(skill_aspiration).to.eql(postedSkillAspiration)\r",
+									"    pm.expect(client_aspiration).to.eql(postedClientAspiration)\r",
+									"    pm.expect(candidates).to.eql(postedCandidates)\r",
+									"    pm.expect(cv).to.eql(postedCV)\r",
+									" \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{employee_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Employee",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('employee_post_name', 'Rab')\r",
+									"pm.environment.set('employee_post_employment_type', 'Perm')\r",
+									"pm.environment.set('employee_post_pay_rate', 22)\r",
+									"pm.environment.set('employee_post_location', 'Linlithgow')\r",
+									"pm.environment.set('employee_post_job_title', 'Consultant')\r",
+									"pm.environment.set('employee_post_api_testing', 5)\r",
+									"pm.environment.set('employee_post_selenium', 5)\r",
+									"pm.environment.set('employee_post_cypress', 5)\r",
+									"pm.environment.set('employee_post_security_clearance', 'TS')\r",
+									"pm.environment.set('employee_post_skill_aspiration', 'ML')\r",
+									"pm.environment.set('employee_post_client_aspiration', 'NASA')\r",
+									"pm.environment.set('employee_post_candidates', [])\r",
+									"pm.environment.set('employee_post_cv', 'www.bigCVFactory.com')\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employee_id\": {{employee_id}},\r\n    \"name\": \"{{employee_post_name}}\",\r\n    \"employment_type\": \"{{employee_post_employment_type}}\",\r\n    \"pay_rate\": {{employee_post_pay_rate}},\r\n    \"location\": \"{{employee_post_location}}\",\r\n    \"job_title\": \"{{employee_post_job_title}}\",\r\n    \"api_testing\": {{employee_post_api_testing}},\r\n    \"selenium\": {{employee_post_selenium}},\r\n    \"cypress\": {{employee_post_cypress}},\r\n    \"security_clearance\": \"{{employee_post_security_clearance}}\",\r\n    \"skill_aspiration\": \"{{employee_post_skill_aspiration}}\",\r\n    \"client_aspiration\": \"{{employee_post_client_aspiration}}\",\r\n    \"candidates\": [],\r\n    \"cv\": \"{{employee_post_cv}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Edited Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The employee details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.employee_id\r",
+									"    const name = response.name\r",
+									"    const employment_type = response.employment_type\r",
+									"    const payRate = response.pay_rate\r",
+									"    const location = response.location\r",
+									"    const job_title = response.job_title\r",
+									"    const api_testing = response.api_testing\r",
+									"    const selenium = response.selenium\r",
+									"    const cypress = response.cypress\r",
+									"    const security_clearance = response.security_clearance\r",
+									"    const skill_aspiration = response.skill_aspiration\r",
+									"    const client_aspiration = response.client_aspiration\r",
+									"    const candidates = response.candidates\r",
+									"    const cv = response.cv\r",
+									"\r",
+									"    const postedId = pm.environment.get('employee_id')\r",
+									"    const postedName = pm.environment.get('employee_post_name')\r",
+									"    const postedLocation = pm.environment.get('employee_post_location')\r",
+									"    const postedEmploymentType = pm.environment.get('employee_post_employment_type')\r",
+									"    const postedPayRate = pm.environment.get('employee_post_pay_rate')\r",
+									"    const postedJobTitle = pm.environment.get('employee_post_job_title')\r",
+									"    const postedApiTesting = pm.environment.get('employee_post_api_testing')\r",
+									"    const postedSelenium = pm.environment.get('employee_post_selenium')\r",
+									"    const postedCypress = pm.environment.get('employee_post_cypress')\r",
+									"    const postedSecurityClearance = pm.environment.get('employee_post_security_clearance')\r",
+									"    const postedSkillAspiration = pm.environment.get('employee_post_skill_aspiration')\r",
+									"    const postedClientAspiration = pm.environment.get('employee_post_client_aspiration')\r",
+									"    const postedCandidates = pm.environment.get('employee_post_candidates')\r",
+									"    const postedCV = pm.environment.get('employee_post_cv')\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(name).to.eql(postedName)\r",
+									"    pm.expect(location).to.eql(postedLocation)\r",
+									"    pm.expect(employment_type).to.eql(postedEmploymentType)\r",
+									"    pm.expect(payRate).to.eql(postedPayRate)\r",
+									"    pm.expect(job_title).to.eql(postedJobTitle)\r",
+									"    pm.expect(api_testing).to.eql(postedApiTesting)\r",
+									"    pm.expect(selenium).to.eql(postedSelenium)\r",
+									"    pm.expect(cypress).to.eql(postedCypress)\r",
+									"    pm.expect(security_clearance).to.eql(postedSecurityClearance)\r",
+									"    pm.expect(skill_aspiration).to.eql(postedSkillAspiration)\r",
+									"    pm.expect(client_aspiration).to.eql(postedClientAspiration)\r",
+									"    pm.expect(candidates).to.eql(postedCandidates)\r",
+									"    pm.expect(cv).to.eql(postedCV)\r",
+									" \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{employee_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete employee/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{employee_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Employee has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/employees/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{employee_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Create client Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Client')\r",
+									"pm.environment.set('client_post_location', 'Edinburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Pat Manager')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{client_post_name}}\",\r\n   \"projects\": [],\r\n   \"location\": \"{{client_post_location}}\",\r\n   \"account_manager\": \"{{client_post_account_manager}}\",\r\n   \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    pm.environment.set('project_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('project_post_name', 'Project Zoo')\r",
+									"pm.environment.set('project_post_probability', 80)\r",
+									"pm.environment.set('project_post_start_date', '01/05/2021')\r",
+									"pm.environment.set('project_post_end_date', '08/06/2021')\r",
+									"pm.environment.set('project_post_status', 'Active')\r",
+									"pm.environment.set('project_post_notice_period', '3 weeks')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{project_post_name}}\",\r\n    \"client\": {\r\n        \"client_id\": {{client_id}}\r\n    },\r\n    \"probability\": {{project_post_probability}},\r\n    \"start_date\": \"{{project_post_start_date}}\",\r\n    \"end_date\": \"{{project_post_end_date}}\",\r\n    \"status\": \"{{project_post_status}}\",\r\n    \"notice_period\": \"{{project_post_notice_period}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Assignment Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('assignment_post_status', 'Unconfirmed')\r",
+									"pm.environment.set('assignment_post_role', 'QA engineer')\r",
+									"pm.environment.set('assignment_post_employment_type', 'Associate')\r",
+									"pm.environment.set('assignment_post_start_date', '1/2/12')\r",
+									"pm.environment.set('assignment_post_end_date', '1/2/15')\r",
+									"pm.environment.set('assignment_post_location', 'Glasgow')\r",
+									"pm.environment.set('assignment_post_skill_1', 'API testing')\r",
+									"pm.environment.set('assignment_post_skill_1_level', '3')\r",
+									"pm.environment.set('assignment_post_skill_2', 'Cypress')\r",
+									"pm.environment.set('assignment_post_skill_2_level', '2')\r",
+									"pm.environment.set('assignment_post_charge_rate', 200)\r",
+									"pm.environment.set('assignment_post_max_pay_rate', 300)\r",
+									"pm.environment.set('assignment_post_security_clearance', 'DBS')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.assignment_id\r",
+									"    pm.environment.set('assignment_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"status\": \"{{assignment_post_status}}\",\r\n\"role\": \"{{assignment_post_role}}\",\r\n\"employment_type\": \"{{assignment_post_employment_type}}\",\r\n\"start_date\": \"{{assignment_post_start_date}}\",\r\n\"end_date\": \"{{assignment_post_end_date}}\",\r\n\"location\": \"{{assignment_post_location}}\",\r\n\"skill_requirement_1\": \"{{assignment_post_skill_1}}\",\r\n\"skill_requirement_1_level\": \"{{assignment_post_skill_1_level}}\",\r\n\"skill_requirement_2\": \"{{assignment_post_skill_2}}\",\r\n\"skill_requirement_2_level\": \"{{assignment_post_skill_2_level}}\",\r\n\"charge_rate\": {{assignment_post_charge_rate}},\r\n\"max_pay_rate\": {{assignment_post_max_pay_rate}},\r\n\"security_clearance\": \"{{assignment_post_security_clearance}}\",\r\n\"project\": {\r\n    \"project_id\": {{project_id}}\r\n},\r\n\"candidates\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/assignments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Employee Copy 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('employee_post_name', 'Bob')\r",
+									"pm.environment.set('employee_post_employment_type', 'Associate')\r",
+									"pm.environment.set('employee_post_pay_rate', 25)\r",
+									"pm.environment.set('employee_post_location', 'Edinburgh')\r",
+									"pm.environment.set('employee_post_job_title', 'Junior Engineer')\r",
+									"pm.environment.set('employee_post_api_testing', 4)\r",
+									"pm.environment.set('employee_post_selenium', 3)\r",
+									"pm.environment.set('employee_post_cypress', 5)\r",
+									"pm.environment.set('employee_post_security_clearance', 'DS')\r",
+									"pm.environment.set('employee_post_skill_aspiration', 'Astronaught')\r",
+									"pm.environment.set('employee_post_client_aspiration', 'NASA')\r",
+									"pm.environment.set('employee_post_candidates', [])\r",
+									"pm.environment.set('employee_post_cv', 'www.bigCVFactory.com')\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.employee_id\r",
+									"    pm.environment.set('employee_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"{{employee_post_name}}\",\r\n\"employment_type\": \"{{employee_post_employment_type}}\",\r\n\"pay_rate\": {{employee_post_pay_rate}},\r\n\"location\": \"{{employee_post_location}}\",\r\n\"job_title\": \"{{employee_post_job_title}}\",\r\n\"api_testing\": {{employee_post_api_testing}},\r\n\"selenium\": {{employee_post_selenium}},\r\n\"cypress\": {{employee_post_cypress}},\r\n\"security_clearance\": \"{{employee_post_security_clearance}}\",\r\n\"skill_aspiration\": \"{{employee_post_skill_aspiration}}\",\r\n\"client_aspiration\": \"{{employee_post_client_aspiration}}\",\r\n\"candidates\": [],\r\n\"cv\": \"{{employee_post_cv}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create candidate Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('candidate_post_status', 'Not active')\r",
+									"pm.environment.set('candidate_post_reason', 'Just because...')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.candidate_id\r",
+									"    pm.environment.set('candidate_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assignment\": {\r\n        \"assignment_id\": {{assignment_id}}\r\n    },\r\n    \"employee\": {\r\n        \"employee_id\": {{employee_id}}\r\n    },\r\n    \"status\": \"{{candidate_post_status}}\",\r\n    \"reason\": \"{{candidate_post_reason}}\",\r\n    \"comments\": [\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/candidates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"candidates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    const responseId = pm.response.json().user_id\r",
+									"    const responseName = pm.response.json().name\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"user_id\", responseId)\r",
+									"    pm.environment.set(\"user_name\", responseName)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Creed Bratten\",\r\n    \"email\": \"creed.bratten@blogspot.uk\",\r\n    \"access\": \"All access\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('comment_post_date', '1/1/2021')\r",
+									"pm.environment.set('comment_post_comment', 'Wow, good job!')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.comment_id\r",
+									"    pm.environment.set('comment_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"date\": \"{{comment_post_date}}\",\r\n\"comment\": \"{{comment_post_comment}}\",\r\n    \"user\": {\r\n        \"user_id\": {{user_id}}\r\n    },\r\n    \"candidate\": {\r\n        \"candidate_id\": {{candidate_id}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The comment details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.comment_id\r",
+									"    const date = response.date\r",
+									"    const comment = response.comment\r",
+									"    const user = response.user\r",
+									"    const candidate = response.candidate\r",
+									"\r",
+									"    const postedId = pm.environment.get('comment_id')\r",
+									"    const postedDate = pm.environment.get('comment_post_date')\r",
+									"    const postedComment = pm.environment.get('comment_post_comment')\r",
+									"    const postedUser = pm.environment.get('user_id')\r",
+									"    const postedCandidate = pm.environment.get('candidate_id')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(date).to.eql(postedDate)\r",
+									"    pm.expect(comment).to.eql(postedComment)\r",
+									"    pm.expect(user.user_id).to.eql(postedUser)\r",
+									"    pm.expect(candidate.candidate_id).to.eql(postedCandidate)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{comment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit comment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('comment_post_date', '1/1/2021')\r",
+									"pm.environment.set('comment_post_comment', 'On second thoughts, a little more training required')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment_id\": {{comment_id}},\r\n    \"date\": \"{{comment_post_date}}\",\r\n    \"comment\": \"{{comment_post_comment}}\",\r\n        \"user\": {\r\n            \"user_id\": {{user_id}}\r\n        },\r\n        \"candidate\": {\r\n            \"candidate_id\": {{candidate_id}},\r\n            \"assignment\": {\r\n                \"assigment_id\": {{assignment_id}}\r\n            }\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{comment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Edited Comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The comment details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.comment_id\r",
+									"    const date = response.date\r",
+									"    const comment = response.comment\r",
+									"    const user = response.user\r",
+									"    const candidate = response.candidate\r",
+									"\r",
+									"    const postedId = pm.environment.get('comment_id')\r",
+									"    const postedDate = pm.environment.get('comment_post_date')\r",
+									"    const postedComment = pm.environment.get('comment_post_comment')\r",
+									"    const postedUser = pm.environment.get('user_id')\r",
+									"    const postedCandidate = pm.environment.get('candidate_id')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(date).to.eql(postedDate)\r",
+									"    pm.expect(comment).to.eql(postedComment)\r",
+									"    pm.expect(user.user_id).to.eql(postedUser)\r",
+									"    pm.expect(candidate.candidate_id).to.eql(postedCandidate)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{comment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{comment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Comment has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/comments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{comment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Candidates",
+			"item": [
+				{
+					"name": "Create user Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    const responseId = pm.response.json().user_id\r",
+									"    const responseName = pm.response.json().name\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.environment.set(\"user_id\", responseId)\r",
+									"    pm.environment.set(\"user_name\", responseName)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Creed Bratten\",\r\n    \"email\": \"creed.bratten@blogspot.uk\",\r\n    \"access\": \"All access\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create client Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Client')\r",
+									"pm.environment.set('client_post_location', 'Edinburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Pat Manager')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{client_post_name}}\",\r\n   \"projects\": [],\r\n   \"location\": \"{{client_post_location}}\",\r\n   \"account_manager\": \"{{client_post_account_manager}}\",\r\n   \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project Copy 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    pm.environment.set('project_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('project_post_name', 'Project Zoo')\r",
+									"pm.environment.set('project_post_probability', 80)\r",
+									"pm.environment.set('project_post_start_date', '01/05/2021')\r",
+									"pm.environment.set('project_post_end_date', '08/06/2021')\r",
+									"pm.environment.set('project_post_status', 'Active')\r",
+									"pm.environment.set('project_post_notice_period', '3 weeks')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{project_post_name}}\",\r\n    \"client\": {\r\n        \"client_id\": {{client_id}}\r\n    },\r\n    \"probability\": {{project_post_probability}},\r\n    \"start_date\": \"{{project_post_start_date}}\",\r\n    \"end_date\": \"{{project_post_end_date}}\",\r\n    \"status\": \"{{project_post_status}}\",\r\n    \"notice_period\": \"{{project_post_notice_period}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Assignment Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('assignment_post_status', 'Unconfirmed')\r",
+									"pm.environment.set('assignment_post_role', 'QA engineer')\r",
+									"pm.environment.set('assignment_post_employment_type', 'Associate')\r",
+									"pm.environment.set('assignment_post_start_date', '1/2/12')\r",
+									"pm.environment.set('assignment_post_end_date', '1/2/15')\r",
+									"pm.environment.set('assignment_post_location', 'Glasgow')\r",
+									"pm.environment.set('assignment_post_skill_1', 'API testing')\r",
+									"pm.environment.set('assignment_post_skill_1_level', '3')\r",
+									"pm.environment.set('assignment_post_skill_2', 'Cypress')\r",
+									"pm.environment.set('assignment_post_skill_2_level', '2')\r",
+									"pm.environment.set('assignment_post_charge_rate', 200)\r",
+									"pm.environment.set('assignment_post_max_pay_rate', 300)\r",
+									"pm.environment.set('assignment_post_security_clearance', 'DBS')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.assignment_id\r",
+									"    pm.environment.set('assignment_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"status\": \"{{assignment_post_status}}\",\r\n\"role\": \"{{assignment_post_role}}\",\r\n\"employment_type\": \"{{assignment_post_employment_type}}\",\r\n\"start_date\": \"{{assignment_post_start_date}}\",\r\n\"end_date\": \"{{assignment_post_end_date}}\",\r\n\"location\": \"{{assignment_post_location}}\",\r\n\"skill_requirement_1\": \"{{assignment_post_skill_1}}\",\r\n\"skill_requirement_1_level\": \"{{assignment_post_skill_1_level}}\",\r\n\"skill_requirement_2\": \"{{assignment_post_skill_2}}\",\r\n\"skill_requirement_2_level\": \"{{assignment_post_skill_2_level}}\",\r\n\"charge_rate\": {{assignment_post_charge_rate}},\r\n\"max_pay_rate\": {{assignment_post_max_pay_rate}},\r\n\"security_clearance\": \"{{assignment_post_security_clearance}}\",\r\n\"project\": {\r\n    \"project_id\": {{project_id}}\r\n},\r\n\"candidates\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/assignments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Employee Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('employee_post_name', 'Bob')\r",
+									"pm.environment.set('employee_post_employment_type', 'Associate')\r",
+									"pm.environment.set('employee_post_pay_rate', 25)\r",
+									"pm.environment.set('employee_post_location', 'Edinburgh')\r",
+									"pm.environment.set('employee_post_job_title', 'Junior Engineer')\r",
+									"pm.environment.set('employee_post_api_testing', 4)\r",
+									"pm.environment.set('employee_post_selenium', 3)\r",
+									"pm.environment.set('employee_post_cypress', 5)\r",
+									"pm.environment.set('employee_post_security_clearance', 'DS')\r",
+									"pm.environment.set('employee_post_skill_aspiration', 'Astronaught')\r",
+									"pm.environment.set('employee_post_client_aspiration', 'NASA')\r",
+									"pm.environment.set('employee_post_candidates', [])\r",
+									"pm.environment.set('employee_post_cv', 'www.bigCVFactory.com')\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.employee_id\r",
+									"    pm.environment.set('employee_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"{{employee_post_name}}\",\r\n\"employment_type\": \"{{employee_post_employment_type}}\",\r\n\"pay_rate\": {{employee_post_pay_rate}},\r\n\"location\": \"{{employee_post_location}}\",\r\n\"job_title\": \"{{employee_post_job_title}}\",\r\n\"api_testing\": {{employee_post_api_testing}},\r\n\"selenium\": {{employee_post_selenium}},\r\n\"cypress\": {{employee_post_cypress}},\r\n\"security_clearance\": \"{{employee_post_security_clearance}}\",\r\n\"skill_aspiration\": \"{{employee_post_skill_aspiration}}\",\r\n\"client_aspiration\": \"{{employee_post_client_aspiration}}\",\r\n\"candidates\": [],\r\n\"cv\": \"{{employee_post_cv}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/employees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create candidate",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('candidate_post_status', 'Not active')\r",
+									"pm.environment.set('candidate_post_reason', 'Just because...')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.candidate_id\r",
+									"    pm.environment.set('candidate_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assignment\": {\r\n        \"assignment_id\": {{assignment_id}}\r\n    },\r\n    \"employee\": {\r\n        \"employee_id\": {{employee_id}}\r\n    },\r\n    \"status\": \"{{candidate_post_status}}\",\r\n    \"reason\": \"{{candidate_post_reason}}\",\r\n    \"comments\": [\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/candidates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"candidates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comment Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('comment_post_date', '1/1/2021')\r",
+									"pm.environment.set('comment_post_comment', 'Wow, good job!')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.comment_id\r",
+									"    pm.environment.set('comment_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"date\": \"{{comment_post_date}}\",\r\n\"comment\": \"{{comment_post_comment}}\",\r\n    \"user\": {\r\n        \"user_id\": {{user_id}}\r\n    },\r\n    \"candidate\": {\r\n        \"candidate_id\": {{candidate_id}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The candidate details have been correctly posted\", function () {\r",
+									"    \r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.candidate_id\r",
+									"    const status = response.status\r",
+									"    const reason = response.reason\r",
+									"    const comment = response.comments[0].comment_id\r",
+									"    const assignment = response.assignment.assignment_id\r",
+									"    const employee = response.employee.employee_id\r",
+									"\r",
+									"    const postedId = pm.environment.get('candidate_id')\r",
+									"    const postedStatus = pm.environment.get('candidate_post_status')\r",
+									"    const postedRason = pm.environment.get('candidate_post_reason')\r",
+									"    const postedComment = pm.environment.get('comment_id')\r",
+									"    const postedAssignment = pm.environment.get('assignment_id')\r",
+									"    const postedEmployee = pm.environment.get('employee_id')\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(status).to.eql(postedStatus)\r",
+									"    pm.expect(reason).to.eql(postedRason)\r",
+									"    pm.expect(comment).to.eql(postedComment)\r",
+									"    pm.expect(assignment).to.eql(postedAssignment)\r",
+									"    pm.expect(employee).to.eql(postedEmployee)\r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/candidates/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"candidates",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{candidate_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete candidate/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/candidates/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"candidates",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{candidate_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Candidate has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/candidates/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"candidates",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{candidate_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "Create client Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.client_id\r",
+									"    pm.environment.set('client_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('client_post_name', 'Janet Client')\r",
+									"pm.environment.set('client_post_location', 'Edinburgh')\r",
+									"pm.environment.set('client_post_account_manager', 'Pat Manager')\r",
+									"pm.environment.set('client_post_status', 'Active')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"name\": \"{{client_post_name}}\",\r\n   \"projects\": [],\r\n   \"location\": \"{{client_post_location}}\",\r\n   \"account_manager\": \"{{client_post_account_manager}}\",\r\n   \"status\": \"{{client_post_status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.project_id\r",
+									"    pm.environment.set('project_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('project_post_name', 'Project Zoo')\r",
+									"pm.environment.set('project_post_probability', 80)\r",
+									"pm.environment.set('project_post_start_date', '01/05/2021')\r",
+									"pm.environment.set('project_post_end_date', '08/06/2021')\r",
+									"pm.environment.set('project_post_status', 'Active')\r",
+									"pm.environment.set('project_post_notice_period', '3 weeks')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{project_post_name}}\",\r\n    \"client\": {\r\n        \"client_id\": {{client_id}}\r\n    },\r\n    \"probability\": {{project_post_probability}},\r\n    \"start_date\": \"{{project_post_start_date}}\",\r\n    \"end_date\": \"{{project_post_end_date}}\",\r\n    \"status\": \"{{project_post_status}}\",\r\n    \"notice_period\": \"{{project_post_notice_period}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Assignment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set('assignment_post_status', 'Unconfirmed')\r",
+									"pm.environment.set('assignment_post_role', 'QA engineer')\r",
+									"pm.environment.set('assignment_post_employment_type', 'Associate')\r",
+									"pm.environment.set('assignment_post_start_date', '1/2/12')\r",
+									"pm.environment.set('assignment_post_end_date', '1/2/15')\r",
+									"pm.environment.set('assignment_post_location', 'Glasgow')\r",
+									"pm.environment.set('assignment_post_skill_1', 'API testing')\r",
+									"pm.environment.set('assignment_post_skill_1_level', '3')\r",
+									"pm.environment.set('assignment_post_skill_2', 'Cypress')\r",
+									"pm.environment.set('assignment_post_skill_2_level', '2')\r",
+									"pm.environment.set('assignment_post_charge_rate', 200)\r",
+									"pm.environment.set('assignment_post_max_pay_rate', 300)\r",
+									"pm.environment.set('assignment_post_security_clearance', 'DBS')"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.assignment_id\r",
+									"    pm.environment.set('assignment_id', responseId)\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"status\": \"{{assignment_post_status}}\",\r\n\"role\": \"{{assignment_post_role}}\",\r\n\"employment_type\": \"{{assignment_post_employment_type}}\",\r\n\"start_date\": \"{{assignment_post_start_date}}\",\r\n\"end_date\": \"{{assignment_post_end_date}}\",\r\n\"location\": \"{{assignment_post_location}}\",\r\n\"skill_requirement_1\": \"{{assignment_post_skill_1}}\",\r\n\"skill_requirement_1_level\": \"{{assignment_post_skill_1_level}}\",\r\n\"skill_requirement_2\": \"{{assignment_post_skill_2}}\",\r\n\"skill_requirement_2_level\": \"{{assignment_post_skill_2_level}}\",\r\n\"charge_rate\": {{assignment_post_charge_rate}},\r\n\"max_pay_rate\": {{assignment_post_max_pay_rate}},\r\n\"security_clearance\": \"{{assignment_post_security_clearance}}\",\r\n\"project\": {\r\n    \"project_id\": {{project_id}}\r\n},\r\n\"candidates\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/assignments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get created assignment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The assignment details have been correctly posted\", function () {\r",
+									"    const response = pm.response.json()\r",
+									"    const responseId = response.assignment_id\r",
+									"    const status = response.status\r",
+									"    const role = response.role\r",
+									"    const employment_type = response.employment_type\r",
+									"    const start_date = response.start_date\r",
+									"    const end_date = response.end_date\r",
+									"    const location = response.location\r",
+									"    const skill_1 = response.skill_requirement_1\r",
+									"    const skill_1_level = response.skill_requirement_1_level\r",
+									"    const skill_2 = response.skill_requirement_2\r",
+									"    const skill_2_level = response.skill_requirement_2_level\r",
+									"    const charge_rate = response.charge_rate\r",
+									"    const max_pay_rate = response.max_pay_rate\r",
+									"    const security_clearance = response.security_clearance\r",
+									"    \r",
+									"    const postedStatus = pm.environment.get('assignment_post_status')\r",
+									"    const postedRole = pm.environment.get('assignment_post_role')\r",
+									"    const postedEmploymentType = pm.environment.get('assignment_post_employment_type')\r",
+									"    const postedStartDate = pm.environment.get('assignment_post_start_date')\r",
+									"    const postedEndDate = pm.environment.get('assignment_post_end_date')\r",
+									"    const postedLocation = pm.environment.get('assignment_post_location')\r",
+									"    const postedSkill1 = pm.environment.get('assignment_post_skill_1')\r",
+									"    const postedSkill1Level = pm.environment.get('assignment_post_skill_1_level')\r",
+									"    const postedSkill2 = pm.environment.get('assignment_post_skill_2')\r",
+									"    const postedSkill2Level = pm.environment.get('assignment_post_skill_2_level')\r",
+									"    const postedChargeRate = pm.environment.get('assignment_post_charge_rate')\r",
+									"    const postedMaxPayRate = pm.environment.get('assignment_post_max_pay_rate')\r",
+									"    const postedSecurityClearance = pm.environment.get('assignment_post_security_clearance')\r",
+									"    const postedId = pm.environment.get('assignment_id')\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseId).to.eql(postedId)\r",
+									"    pm.expect(status).to.eql(postedStatus)\r",
+									"    pm.expect(role).to.eql(postedRole)\r",
+									"    pm.expect(employment_type).to.eql(postedEmploymentType)\r",
+									"    pm.expect(start_date).to.eql(postedStartDate)\r",
+									"    pm.expect(end_date).to.eql(postedEndDate)\r",
+									"    pm.expect(location).to.eql(postedLocation)\r",
+									"    pm.expect(skill_1).to.eql(postedSkill1)\r",
+									"    pm.expect(skill_1_level).to.eql(postedSkill1Level)\r",
+									"    pm.expect(skill_2).to.eql(postedSkill2)\r",
+									"    pm.expect(skill_2_level).to.eql(postedSkill2Level)\r",
+									"    pm.expect(charge_rate).to.eql(postedChargeRate)\r",
+									"    pm.expect(max_pay_rate).to.eql(postedMaxPayRate)\r",
+									"    pm.expect(security_clearance).to.eql(postedSecurityClearance)\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/assignments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{assignment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete assignment/clean-up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/assignments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{assignment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete project/clean-up Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/projects/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"projects",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{project_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete client/clean-up Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clients/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clients",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{client_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted assignment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Client has been deleted, no response data', () => {\r",
+									"    const response = pm.response.json()\r",
+									"    pm.expect(response).to.eql(null);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/assignments/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"assignments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{assignment_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
