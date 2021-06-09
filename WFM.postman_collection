@@ -1848,6 +1848,7 @@
 									"    const response = pm.response.json()\r",
 									"    const responseId = response.comment_id\r",
 									"    pm.environment.set('comment_id', responseId)\r",
+									"    console.log('response id:', responseId)\r",
 									"    pm.response.to.have.status(201);\r",
 									"});"
 								],
@@ -1958,7 +1959,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1970,7 +1971,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"comment_id\": {{comment_id}},\r\n    \"date\": \"{{comment_post_date}}\",\r\n    \"comment\": \"{{comment_post_comment}}\",\r\n        \"user\": {\r\n            \"user_id\": {{user_id}}\r\n        },\r\n        \"candidate\": {\r\n            \"candidate_id\": {{candidate_id}},\r\n            \"assignment\": {\r\n                \"assigment_id\": {{assignment_id}}\r\n            }\r\n        }\r\n}",
+							"raw": "{\r\n  \"comment_id\": {{comment_id}},\r\n  \"date\": \"{{comment_post_date}}\",\r\n  \"comment\": \"{{comment_post_comment}}\",\r\n  \"user\": {\r\n    \"user_id\": {{user_id}}\r\n  },\r\n  \"candidate\": {\r\n    \"candidate_id\": {{candidate_id}},\r\n    \"assignment\": {\r\n      \"assignment_id\": {{assignment_id}},\r\n      \"project\": {\r\n        \"project_id\": {{project_id}},\r\n        \"client\": {\r\n          \"client_id\": {{client_id}}\r\n        }\r\n      }\r\n    },\r\n    \"employee\": {\r\n      \"employee_id\": {{employee_id}}\r\n    }\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
